@@ -141,6 +141,16 @@ def retrieve_password(email: str):
         return jsonify(message='email not found'), 401
 
 
+@app.route('/planet_details/<int:planet_id>', methods=['GET'])
+def planet_details(planet_id: int):
+    planet = Planet.query.filter_by(planet_id=planet_id).first()
+    if planet:
+        result = planet_schema.dump(planet)
+        return jsonify(result)
+    else:
+        return jsonify(message='planet not found'), 404
+
+
 # database models
 class User(db.Model):
     __tablename__ = 'users'
